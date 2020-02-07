@@ -11,6 +11,7 @@ extern SPI_HandleTypeDef hspi1;
 extern Commands commands;
 
 unsigned char ucDisplayBuff[(128*128*2)];
+unsigned char *displaybuff;	//TODO: implement
 
 Colors colors =
 {
@@ -212,4 +213,18 @@ void charxy(char c, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t 
 void stringxy(char *string, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwbgcolor)
 {
 
+}
+
+/**
+ *  @name
+ *  @brief
+ *  @author Laurin Heitzer
+ *  @date   08.02.2020
+ *
+*/
+void allocate_displaybuffer(void)
+{
+	uint8_t tmp = 0;
+	//TODO: read PEIN into tmp (PE0 needs pull up)
+	displaybuff = (unsigned char *) malloc(tmp * 32768);	//allocate memory for displaybuffer
 }

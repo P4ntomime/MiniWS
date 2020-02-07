@@ -8,6 +8,8 @@
 #ifndef INC_GFX_H_
 #define INC_GFX_H_
 
+#include <stdlib.h>
+
 #include "ssd1351.h"
 #include "main.h"
 //#include "myCharSet.h"
@@ -41,7 +43,7 @@ void filledrectxyab(uint8_t x, uint8_t y, uint8_t a, uint8_t b, Color color, uin
 void linefromto(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Color color, uint8_t dwline);
 void charxy(char c, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwbgcolor, uint8_t dwchar);
 void stringxy(char *string, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwbgcolor);
-
+void allocate_displaybuffer(void);
 
 
 #endif /* INC_GFX_H_ */
