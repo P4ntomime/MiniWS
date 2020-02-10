@@ -147,10 +147,10 @@ void setcursorstandard(void)
     TxBuff[0] = 0x00;
     TxBuff[1] = 127;
     sendcommand(commands.SetColumn);
-    senddata(&TxBuff, 2);
+    senddata(TxBuff, 2);		//not tested
 
     TxBuff[1] = 127;
     sendcommand(commands.SetRow);
-    senddata(&TxBuff, 2);
+    senddata(TxBuff, 2);
 
 }

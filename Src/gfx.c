@@ -278,5 +278,5 @@ void allocate_displaybuffer(void)
 {
 	uint8_t tmp = 0;
 	//TODO: read PEIN into tmp (PE0 needs pull up)
-	displaybuff = (unsigned char *) malloc(tmp * 32768);	//allocate memory for displaybuffer
+	displaybuff = (unsigned char *) malloc(tmp * 32768);	//allocate memory for displaybuffer	INFO: "tmp*" part not needed
 }
