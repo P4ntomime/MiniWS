@@ -166,7 +166,8 @@ void linefromto(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Color color, uin
 {
     if((x1 < 128) && (x2 < 128) && (y1 < 128) && (y2 < 128))        //check if coordinates are legal
     {
-        if(((x1 > x2) && (y1 > y2)) || ((x1 > x2) && (y1 < y2)))
+    	int16_t ctr = 0;
+        if(x1 > x2)
         {
             uint8_t tmp = x1;
             x1 = x2;
@@ -176,20 +177,71 @@ void linefromto(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Color color, uin
             y1 = y2;
             y2 = tmp;
         }
+        else if((x1 == x2) && !(y1 == y2))
+        {
+        	for(ctr = y1; ctr < y2; ctr++)
+        	{
+        		plotdotxy(x1, ctr, color, 0);
+        	}
+        }
+        else if((y1 == y2) && !(x1 == x2))
+        {
+        	for(ctr = x1; ctr < x2; ctr++)
+        	{
+        		plotdotxy(ctr, y1, color, 0);
+        	}
+        }
+        else if((x1 == x2) && (y1 == y2))
+        {
+        	plotdotxy(x1, y1, color, 0);
+        }
+        else
+        {
 
-        int16_t dx = x2 - x1;
-        int16_t dy = y2 - y1;
+			int16_t dx = x2 - x1;
+			int16_t dy = y2 - y1;
 
-        int16_t ctr = 0;
+			float m = (dy/dx);				//y = mx + b
+			float b = y1 - (m * x1);
 
-        float mx = (dy/dx);
-        float my = (dx/dy);
+			if(get_bigger_difference(dx, dy))	//cycle through x-axis
+			{
+				for(ctr = x1; ctr < x2; ctr++)
+				{
+					plotdotxy(ctr, (uint8_t)(m * (float)ctr + b), color, 0);	//y = mx + b
+				}
+			}
+			else		//cycle through y-axis
+			{
+				for(ctr = y1; ctr < y2; ctr++)
+				{
+					plotdotxy((uint8_t)(((float)ctr - b) / m), ctr, color, 0);	//x = (y - b)/m
+				}
+			}
+        }
 
-//        if(y2 < y1) dy = y1 - y2;
-//        if(x2 < x1) dx = x1 - x2;
-
+        if(dwline)sendfullscreen();
     }
 }
+
+/**
+ *  @name
+ *  @brief
+ *  @author Laurin Heitzer
+ *  @date   07.02.2020
+ *
+*/
+bool get_bigger_difference(int16_t dx, int16_t dy)
+{
+	if(dx < 0) dx = dx * -1;
+	if(dy < 0) dy = dy * -1;
+
+	if(dx > dy) return 1;	//return 1 if x difference is bigger than y differnece
+	if(dy > dx) return 0;	//return 0 if y differnece is bigger than x differnece
+	if (dx == dy) return 1;	//reutrn 1 if x differnece is same as y differnrece (direction doesen't matter)
+	return 1;	//return 1 to shut up compiler warning
+}
+
 
 /**
  *  @name
