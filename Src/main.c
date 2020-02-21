@@ -226,7 +226,7 @@ int main(void)
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 //	DisplayInit();
-  init_oled(1,1);
+//  init_oled(1,1); FIXME: add fnptrs
 
 //	BlankScreen(colors.blue);
 

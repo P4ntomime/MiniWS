@@ -50,19 +50,26 @@ Commands commands =
 void init_oled(uint8_t orientation, uint8_t framerate, s_ssd1351 *fnptrs)
 {
 
-	if(fnptrs == NULL)return;
+	if(fnptrs == NULL)return;	//return if function pointer is empty
 
 	fnptr_glob = fnptrs;
 
     uint16_t uiCtr = 0;
 
     //reset cycle of display
-	HAL_GPIO_WritePin(GPIOA, OLED_RESET, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOA, OLED_RESET, GPIO_PIN_RESET);
-	HAL_Delay(1000);
-	HAL_GPIO_WritePin(GPIOA, OLED_RESET, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_SET);
-	HAL_Delay(500);
+//	HAL_GPIO_WritePin(GPIOA, OLED_RESET, GPIO_PIN_SET);
+//	HAL_GPIO_WritePin(GPIOA, OLED_RESET, GPIO_PIN_RESET);
+//	HAL_Delay(1000);
+//	HAL_GPIO_WritePin(GPIOA, OLED_RESET, GPIO_PIN_SET);
+//	HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_SET);
+//	HAL_Delay(500);
+
+    fnptr_glob->pin_rs(1);
+    fnptr_glob->pin_rs(0);
+    fnptr_glob->delay(1000);
+    fnptr_glob->pin_rs(1);
+    fnptr_glob->pin_cs(1);
+    fnptr_glob->delay(500);
 
 	for(uiCtr = 0; uiCtr < (128*128*2); uiCtr++) ucDisplayBuff[uiCtr] = 0xFF;
 
@@ -131,12 +138,17 @@ void senddata(uint8_t *data, uint16_t len)
 
 void sendsth(uint8_t sth, uint8_t dc)
 {
-    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOA, OLED_DC, dc);
+//    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_RESET);
+//    HAL_GPIO_WritePin(GPIOA, OLED_DC, dc);
+//
+//    HAL_SPI_Transmit(&hspi1, &sth, 1, 1000);
+//
+//    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_SET);
 
-    HAL_SPI_Transmit(&hspi1, &sth, 1, 1000);
-
-    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_SET);
+	fnptr_glob->pin_cs(0);
+	fnptr_glob->pin_dc(dc);
+	fnptr_glob->transmit_data(&sth, 1);
+	fnptr_glob->pin_cs(1);
 }
 
 /**

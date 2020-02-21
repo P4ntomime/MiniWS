@@ -10,6 +10,8 @@
 extern SPI_HandleTypeDef hspi1;
 extern Commands commands;
 
+extern s_ssd1351 *fnptr_glob;
+
 unsigned char ucDisplayBuff[(128*128*2)];
 unsigned char *displaybuff;	//TODO: implement
 
@@ -75,12 +77,18 @@ void sendfullscreen(void)
 
     sendcommand(commands.WriteRAM);
 
-    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_RESET);              //select display (chipselect)
-    HAL_GPIO_WritePin(GPIOA, OLED_DC, GPIO_PIN_SET);                //tell display that next transmission is data and not command
+    fnptr_glob->pin_cs(0);
+    fnptr_glob->pin_dc(1);
 
-    HAL_SPI_Transmit(&hspi1, ucDisplayBuff, (128*128*2), 1000);     //send the full screen at once
+    fnptr_glob->transmit_data(ucDisplayBuff, (128*128*2));
 
-    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_SET);                //release the chipselect
+    fnptr_glob->pin_cs(1);
+//    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_RESET);              //select display (chipselect)
+//    HAL_GPIO_WritePin(GPIOA, OLED_DC, GPIO_PIN_SET);                //tell display that next transmission is data and not command
+//
+//    HAL_SPI_Transmit(&hspi1, ucDisplayBuff, (128*128*2), 1000);     //send the full screen at once
+//
+//    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_SET);                //release the chipselect
 }
 
 /**
