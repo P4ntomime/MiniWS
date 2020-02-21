@@ -15,7 +15,36 @@
 #ifndef MYCHARSET_H_
 #define MYCHARSET_H_
 
-#define FG 1		//just for a beter visual
+#define FG 1		//just for a better visual
+
+typedef struct charset
+{
+	const unsigned char character[14][11];
+	uint8_t from_last_char;
+	uint8_t to_next_char;
+
+}s_charset;
+
+s_charset char_A= {		//TODO: check if this works
+	.character = {
+		{00,00,00,FG,00,00,00,00,00,00,00},
+		{00,00,FG,00,FG,00,00,00,00,00,00},
+		{00,00,FG,00,FG,00,00,00,00,00,00},
+		{00,00,FG,00,FG,00,00,00,00,00,00},
+		{00,00,FG,00,FG,00,00,00,00,00,00},
+		{00,FG,00,00,00,FG,00,00,00,00,00},
+		{00,FG,00,00,00,FG,00,00,00,00,00},
+		{00,FG,FG,FG,FG,FG,00,00,00,00,00},
+		{00,FG,00,00,00,FG,00,00,00,00,00},
+		{FG,00,00,00,00,00,FG,00,00,00,00},
+		{FG,00,00,00,00,00,FG,00,00,00,00},
+		{00,00,00,00,00,00,00,00,00,00,00},
+		{00,00,00,00,00,00,00,00,00,00,00},
+		{00,00,00,00,00,00,00,00,00,00,00}
+	},
+	.from_last_char = 12,
+	.to_next_char = 0
+};
 
 const unsigned char cucA[14][11] = 
 {

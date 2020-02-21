@@ -15,6 +15,8 @@ extern SPI_HandleTypeDef hspi1;
 extern Colors colors;
 extern unsigned char ucDisplayBuff[(128*128*2)];
 
+s_ssd1351 *fnptr_glob;
+
 Commands commands =
 {
     .SetColumn              = 0x15,
@@ -45,8 +47,12 @@ Commands commands =
  * TODO: implement orientation -> mb. global orientation property for gfx.h + orientation in ssd1351
  *
 */
-void init_oled(uint8_t orientation, uint8_t framerate)
+void init_oled(uint8_t orientation, uint8_t framerate, s_ssd1351 *fnptrs)
 {
+
+	if(fnptrs == NULL)return;
+
+	fnptr_glob = fnptrs;
 
     uint16_t uiCtr = 0;
 

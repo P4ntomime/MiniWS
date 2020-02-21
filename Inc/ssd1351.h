@@ -37,6 +37,18 @@ typedef struct
     uint8_t DivSet;
 }Commands;
 
+typedef void (*write_pin)(uint8_t pinstate);
+typedef void (*delay_ptr)(uint32_t delaytime);
+typedef void (*spi_transmit)(uint8_t *data, uint32_t len);
+
+typedef struct ssd1351
+{
+	write_pin pin_rs;
+	write_pin pin_cs;
+	write_pin pin_dc;
+	delay_ptr delay;
+	spi_transmit transmit_data;
+}s_ssd1351;
 
 
 

@@ -114,7 +114,7 @@ void plotdotxy(uint8_t x, uint8_t y, Color color, uint8_t dwdot)
 {
     if((x < 128) && (y < 128))      //check if coordinates are legal
     {
-        x = 127 - x;
+        x = 127 - x;		//invert display direction TODO: global direction bit for direction of display
         y = 127 - y;
     }
 
