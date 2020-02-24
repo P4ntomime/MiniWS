@@ -7,11 +7,14 @@
 
 #include "gfx.h"
 
+#include "myCharSet.h"
+
 extern SPI_HandleTypeDef hspi1;
 extern Commands commands;
 
+extern s_ssd1351 *fnptr_glob;
+
 unsigned char ucDisplayBuff[(128*128*2)];
-unsigned char *displaybuff;	//TODO: implement
 
 Colors colors =
 {
@@ -75,12 +78,18 @@ void sendfullscreen(void)
 
     sendcommand(commands.WriteRAM);
 
-    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_RESET);              //select display (chipselect)
-    HAL_GPIO_WritePin(GPIOA, OLED_DC, GPIO_PIN_SET);                //tell display that next transmission is data and not command
+    fnptr_glob->pin_cs(0);
+    fnptr_glob->pin_dc(1);
 
-    HAL_SPI_Transmit(&hspi1, ucDisplayBuff, (128*128*2), 1000);     //send the full screen at once
+    fnptr_glob->transmit_data(ucDisplayBuff, (128*128*2));
 
-    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_SET);                //release the chipselect
+    fnptr_glob->pin_cs(1);
+//    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_RESET);              //select display (chipselect)
+//    HAL_GPIO_WritePin(GPIOA, OLED_DC, GPIO_PIN_SET);                //tell display that next transmission is data and not command
+//
+//    HAL_SPI_Transmit(&hspi1, ucDisplayBuff, (128*128*2), 1000);     //send the full screen at once
+//
+//    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_SET);                //release the chipselect
 }
 
 /**
@@ -114,7 +123,7 @@ void plotdotxy(uint8_t x, uint8_t y, Color color, uint8_t dwdot)
 {
     if((x < 128) && (y < 128))      //check if coordinates are legal
     {
-        x = 127 - x;
+        x = 127 - x;		//invert display direction TODO: global direction bit for direction of display
         y = 127 - y;
     }
 
@@ -250,9 +259,61 @@ bool get_bigger_difference(int16_t dx, int16_t dy)
  *  @date   23.12.2019
  *
 */
-void charxy(char c, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwbgcolor, uint8_t dwchar)
+uint8_t charxy(char c, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwbgcolor, uint8_t dwchar)
 {
+	uint8_t RowCtr = 0;
+	uint8_t ColCtr = 0;
+	uint8_t ArrPos = 0;
+	uint8_t nextPos;
 
+	if(c <= 'Z' && c >= 'A') {
+		ArrPos = c - 'A';
+	}
+	if(c <= 'z' && c >= 'a') {
+		ArrPos = c - 'a' + 26;
+	}
+	if(c <= '9' && c >= '0') {
+		ArrPos = c -'0' + 52;
+	}
+	if(c == '.') {
+		ArrPos = 64;
+	}
+	if(c == '%') {
+		ArrPos = 63;
+	}
+	if(c == '°') {
+		ArrPos = 62;
+	}
+	else {	//unknown character
+		ArrPos = 65;
+	}
+
+	for(RowCtr = 0; RowCtr < 14; RowCtr++)
+	{
+		for(ColCtr = 0; ColCtr < 11; ColCtr++)
+		{
+			if(c != ' ')
+			{
+				if(chars_all[ArrPos].character[RowCtr][ColCtr]) plotdotxy(x + ColCtr, y + 13 - RowCtr, fgcolor, 0);
+				else if(dwbgcolor) plotdotxy(x + ColCtr, y + 13 - RowCtr, bgcolor, 0);
+			}
+			else
+			{
+				plotdotxy(x + ColCtr, y + 13 - RowCtr, bgcolor, 0);
+			}
+		}
+	}
+
+	if(c != ' ')
+	{
+		nextPos = chars_all[ArrPos].to_next_char;
+	}
+	else
+	{
+		nextPos = 5;
+	}
+
+	return nextPos;
 }
 
 /**
@@ -264,19 +325,22 @@ void charxy(char c, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t 
 */
 void stringxy(char *string, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwbgcolor)
 {
+	uint8_t x_origin = x;
+//	uint8_t y_origin = y;
 
-}
+	uint8_t nextPos = 0;
 
-/**
- *  @name
- *  @brief
- *  @author Laurin Heitzer
- *  @date   08.02.2020
- *
-*/
-void allocate_displaybuffer(void)
-{
-	uint8_t tmp = 0;
-	//TODO: read PEIN into tmp (PE0 needs pull up)
-	displaybuff = (unsigned char *) malloc(tmp * 32768);	//allocate memory for displaybuffer	INFO: "tmp*" part not needed
+	while(*string)
+	{
+		nextPos = charxy(*string++, x, y, fgcolor, bgcolor, dwbgcolor, 0);
+		if(nextPos + x < 127)
+		{
+			x += nextPos;
+		}
+		else
+		{
+			y -= 13;
+			x = x_origin;
+		}
+	}
 }

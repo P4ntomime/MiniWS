@@ -37,10 +37,22 @@ typedef struct
     uint8_t DivSet;
 }Commands;
 
+typedef void (*write_pin)(uint8_t pinstate);
+typedef void (*delay_ptr)(uint32_t delaytime);
+typedef void (*spi_transmit)(uint8_t *data, uint32_t len);
+
+typedef struct ssd1351
+{
+	write_pin pin_rs;
+	write_pin pin_cs;
+	write_pin pin_dc;
+	delay_ptr delay;
+	spi_transmit transmit_data;
+}s_ssd1351;
 
 
 
-void init_oled(uint8_t orientation, uint8_t framerate);
+void init_oled(uint8_t orientation, uint8_t framerate, s_ssd1351 *fnptrs);
 void sendcommand(uint8_t cmd);
 void senddata(uint8_t *data, uint16_t len);
 void sendsth(uint8_t sth, uint8_t dc);
