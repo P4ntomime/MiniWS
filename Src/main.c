@@ -170,6 +170,25 @@ int8_t user_spi_write(uint8_t dev_id, uint8_t reg_addr, uint8_t *reg_data, uint1
     return rslt;
 }
 
+void pin_cs(uint8_t pinstate)
+{
+
+}
+
+void pin_dc(uint8_t pinstate)
+{
+
+}
+
+void pin_rs(uint8_t pinstate)
+{
+
+}
+
+void transmit_data(uint8_t *data, uint32_t len)
+{
+
+}
 /* USER CODE END 0 */
 
 /**
@@ -178,18 +197,19 @@ int8_t user_spi_write(uint8_t dev_id, uint8_t reg_addr, uint8_t *reg_data, uint1
   */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
+	/* USER CODE BEGIN 1 */
 
-  /* USER CODE END 1 */
-  
+	/* USER CODE END 1 */
 
-  /* MCU Configuration--------------------------------------------------------*/
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	/* MCU Configuration--------------------------------------------------------*/
 
-  /* USER CODE BEGIN Init */
+	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+	HAL_Init();
 
+	/* USER CODE BEGIN Init */
+
+	s_ssd1351 fnptrs_main;
 	struct bme280_dev dev;
 	struct bme280_data comp_data;
 	int8_t rslt = BME280_OK;
@@ -202,6 +222,11 @@ int main(void)
 	dev.write = user_spi_write;
 	dev.delay_ms = user_delay_ms;
 
+	fnptrs_main.pin_cs = pin_cs;
+	fnptrs_main.pin_rs = pin_rs;
+	fnptrs_main.pin_dc = pin_dc;
+	fnptrs_main.transmit_data = transmit_data;
+	fnptrs_main.delay = user_delay_ms;
 
 	/* Recommended mode of operation: Indoor navigation */
 	dev.settings.osr_h = BME280_OVERSAMPLING_1X;
@@ -214,23 +239,22 @@ int main(void)
   /* USER CODE END Init */
 
   /* Configure the system clock */
-  SystemClock_Config();
+	SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
+	/* USER CODE BEGIN SysInit */
 
-  /* USER CODE END SysInit */
+	/* USER CODE END SysInit */
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_SPI1_Init();
-  MX_SPI2_Init();
-  /* USER CODE BEGIN 2 */
-//	DisplayInit();
-//  init_oled(1,1); FIXME: add fnptrs
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+	MX_SPI1_Init();
+	MX_SPI2_Init();
+	/* USER CODE BEGIN 2 */
+	//	DisplayInit();
+	init_oled(1,1, &fnptrs_main);
+	//	BlankScreen(colors.blue);
 
-//	BlankScreen(colors.blue);
-
-  blankscreen(colors.black);
+	blankscreen(colors.black);
 
 
 	rslt = bme280_init(&dev);
@@ -239,8 +263,8 @@ int main(void)
 
 	rslt = bme280_set_sensor_settings(settings_sel, &dev);
 
-//	plotdotxy(1,1,colors.blue, 1);
-//	plotdotxy(127, 127, colors.red, 1);
+	//	plotdotxy(1,1,colors.blue, 1);
+	//	plotdotxy(127, 127, colors.red, 1);
 
 	filledrectxyab(0,0,2,2,colors.blue, 1);
 
@@ -259,34 +283,30 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-    /* USER CODE END WHILE */
+	while (1)
+	{
+	/* USER CODE END WHILE */
 
-//	  loadUI(&dev, &comp_data);
+		//	  loadUI(&dev, &comp_data);
 
-//	  rslt = bme280_set_sensor_mode(BME280_FORCED_MODE, &dev);
-//	  /* Wait for the measurement to complete and print data @25Hz */
-//	  dev.delay_ms(40);
-//	  rslt = bme280_get_sensor_data(BME280_ALL, &comp_data, &dev);
-//
-//	  if(HAL_GPIO_ReadPin(GPIOB, TOUCH_SNS_Pin))
-//	  {
-//		  TempAtXY(comp_data.temperature, 	10,10,	colors.red, 	1, 	colors.black);
-//		  HumAtXY(comp_data.humidity, 		25, 30, colors.blue, 	1, 	colors.black);
-//		  PresAtXY(comp_data.pressure / 100, 	10, 50, colors.green, 	1, 	colors.black);
-//	  }
+		//	  rslt = bme280_set_sensor_mode(BME280_FORCED_MODE, &dev);
+		//	  /* Wait for the measurement to complete and print data @25Hz */
+		//	  dev.delay_ms(40);
+		//	  rslt = bme280_get_sensor_data(BME280_ALL, &comp_data, &dev);
+		//
+		//	  if(HAL_GPIO_ReadPin(GPIOB, TOUCH_SNS_Pin))
+		//	  {
+		//		  TempAtXY(comp_data.temperature, 	10,10,	colors.red, 	1, 	colors.black);
+		//		  HumAtXY(comp_data.humidity, 		25, 30, colors.blue, 	1, 	colors.black);
+		//		  PresAtXY(comp_data.pressure / 100, 	10, 50, colors.green, 	1, 	colors.black);
+		//	  }
 
+		//print_sensor_data(&comp_data);
 
+		HAL_Delay(1000);
 
-	  //print_sensor_data(&comp_data);
-
-
-
-	  HAL_Delay(1000);
-
-    /* USER CODE BEGIN 3 */
-  }
+	/* USER CODE BEGIN 3 */
+	}
   /* USER CODE END 3 */
 }
 

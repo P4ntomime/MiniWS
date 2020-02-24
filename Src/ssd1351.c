@@ -110,12 +110,17 @@ void init_oled(uint8_t orientation, uint8_t framerate, s_ssd1351 *fnptrs)
 */
 void sendcommand(uint8_t cmd)
 {
-    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_RESET);      //chipselect to low
-    HAL_GPIO_WritePin(GPIOA, OLED_DC, GPIO_PIN_RESET);      //dc to low for command instruction
+//    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_RESET);      //chipselect to low
+//    HAL_GPIO_WritePin(GPIOA, OLED_DC, GPIO_PIN_RESET);      //dc to low for command instruction
+//
+//    HAL_SPI_Transmit(&hspi1, &cmd, 1, 1000);                //send command over SPI
+//
+//    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_SET);        //chipselect to high
 
-    HAL_SPI_Transmit(&hspi1, &cmd, 1, 1000);                //send command over SPI
-
-    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_SET);        //chipselect to high
+	fnptr_glob->pin_cs(0);
+	fnptr_glob->pin_dc(0);
+	fnptr_glob->transmit_data(&cmd, 1);
+	fnptr_glob->pin_cs(1);
 }
 
 /**
@@ -127,12 +132,16 @@ void sendcommand(uint8_t cmd)
 */
 void senddata(uint8_t *data, uint16_t len)
 {
-    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_RESET);      //chipselect to low
-    HAL_GPIO_WritePin(GPIOA, OLED_DC, GPIO_PIN_SET);        //dc to high for data
-
-    HAL_SPI_Transmit(&hspi1, data, len, 1000);              //send data over SPI
-
-    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_SET);        //chipselect to high
+//    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_RESET);      //chipselect to low
+//    HAL_GPIO_WritePin(GPIOA, OLED_DC, GPIO_PIN_SET);        //dc to high for data
+//
+//    HAL_SPI_Transmit(&hspi1, data, len, 1000);              //send data over SPI
+//
+//    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_SET);        //chipselect to high
+	fnptr_glob->pin_cs(0);
+	fnptr_glob->pin_dc(1);
+	fnptr_glob->transmit_data(data, len);
+	fnptr_glob->pin_cs(1);
 }
 
 
