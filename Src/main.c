@@ -266,9 +266,20 @@ int main(void)
 	//	plotdotxy(1,1,colors.blue, 1);
 	//	plotdotxy(127, 127, colors.red, 1);
 
-	filledrectxyab(0,0,2,2,colors.blue, 1);
+//	filledrectxyab(0,0,2,2,colors.blue, 1);
 
-//	linefromto(1,1,1,128,colors.white, 0);
+//	linefromto(1,1,1,128,colors.blue, 1);
+//	linefromto(0, 0, 127, 127, colors.green, 1);
+//	linefromto(0, 0, 0, 127, colors.white, 1);
+//	linefromto(1, 1, 1, 127, colors.white, 1);
+//	plotdotxy(0,127,colors.red,1);
+	linefromto(0,0 , 127, 127, colors.blue, 1);
+	linefromto(0,0,127,0,colors.blue,1);
+	linefromto(0,0,0,127,colors.blue,1);
+	HAL_Delay(1000);
+	plotdotxy(127, 127, colors.green, 1);
+	stringxy("test", 10, 10, colors.green, colors.red, 0);
+//	sendfullscreen();
 //	linefromto(1,128,128,128,colors.white, 0);
 //	linefromto(128,128,128,1,colors.white, 0);
 //	linefromto(1,1,128,1,colors.white, 0);
@@ -283,7 +294,7 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	while (1)
+	while (42)
 	{
 	/* USER CODE END WHILE */
 

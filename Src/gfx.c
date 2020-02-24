@@ -210,12 +210,12 @@ void linefromto(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Color color, uin
 			int16_t dx = x2 - x1;
 			int16_t dy = y2 - y1;
 
-			float m = (dy/dx);				//y = mx + b
-			float b = y1 - (m * x1);
+			float m = (float)((float)dy/(float)dx);				//y = mx + b
+			float b = (float)(y1 - (m * x1));
 
 			if(get_bigger_difference(dx, dy))	//cycle through x-axis
 			{
-				for(ctr = x1; ctr < x2; ctr++)
+				for(ctr = x1; ctr <= x2; ctr++)
 				{
 					plotdotxy(ctr, (uint8_t)(m * (float)ctr + b), color, 0);	//y = mx + b
 				}
@@ -266,22 +266,26 @@ uint8_t charxy(char c, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8
 	uint8_t ArrPos = 0;
 	uint8_t nextPos;
 
+//	filledrectxyab(50, 50, 10, 10, colors.yellow, 1);
+
 	if(c <= 'Z' && c >= 'A') {
 		ArrPos = c - 'A';
+//		filledrectxyab(50, 50, 10, 10, colors.yellow, 1);
 	}
-	if(c <= 'z' && c >= 'a') {
+	else if(c <= 'z' && c >= 'a') {
 		ArrPos = c - 'a' + 26;
+//		filledrectxyab(50, 50, 10, 10, colors.yellow, 1);
 	}
-	if(c <= '9' && c >= '0') {
+	else if(c <= '9' && c >= '0') {
 		ArrPos = c -'0' + 52;
 	}
-	if(c == '.') {
+	else if(c == '.') {
 		ArrPos = 64;
 	}
-	if(c == '%') {
+	else if(c == '%') {
 		ArrPos = 63;
 	}
-	if(c == '°') {
+	else if(c == '*') {
 		ArrPos = 62;
 	}
 	else {	//unknown character
@@ -343,4 +347,5 @@ void stringxy(char *string, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, 
 			x = x_origin;
 		}
 	}
+	sendfullscreen();
 }
