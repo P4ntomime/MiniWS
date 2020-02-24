@@ -28,6 +28,8 @@
 #include "bme280.h"
 #include "gfx.h"
 #include "ssd1351.h"
+#include <stdlib.h>
+#include <stdint.h>
 //#include "OLEDGFX.h"
 //#include "UI.h"
 
@@ -179,7 +181,10 @@ int8_t user_spi_write(uint8_t dev_id, uint8_t reg_addr, uint8_t *reg_data, uint1
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+//
+//	uint8_t *tst;
+//
+//	tst = (uint8_t*) malloc(32768);
   /* USER CODE END 1 */
   
 
