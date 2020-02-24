@@ -172,22 +172,22 @@ int8_t user_spi_write(uint8_t dev_id, uint8_t reg_addr, uint8_t *reg_data, uint1
 
 void pin_cs(uint8_t pinstate)
 {
-
+	HAL_GPIO_WritePin(GPIOA, OLED_CS, pinstate);
 }
 
 void pin_dc(uint8_t pinstate)
 {
-
+	HAL_GPIO_WritePin(GPIOA, OLED_DC, pinstate);
 }
 
 void pin_rs(uint8_t pinstate)
 {
-
+	HAL_GPIO_WritePin(GPIOA, OLED_RESET, pinstate);
 }
 
 void transmit_data(uint8_t *data, uint32_t len)
 {
-
+	HAL_SPI_Transmit(&hspi1, data, len, 1000);
 }
 /* USER CODE END 0 */
 

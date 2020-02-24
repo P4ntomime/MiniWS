@@ -11,7 +11,7 @@
 #include "ssd1351.h"
 
 
-extern SPI_HandleTypeDef hspi1;
+//extern SPI_HandleTypeDef hspi1;
 extern Colors colors;
 extern unsigned char ucDisplayBuff[(128*128*2)];
 

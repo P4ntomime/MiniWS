@@ -25,7 +25,7 @@ typedef struct charset
 
 }s_charset;
 
-s_charset char_A= {		//TODO: check if this works
+s_charset char_A= {
 	.character = {
 		{00,00,00,FG,00,00,00,00,00,00,00},
 		{00,00,FG,00,FG,00,00,00,00,00,00},
@@ -46,7 +46,7 @@ s_charset char_A= {		//TODO: check if this works
 	.to_next_char = 0
 };
 
-const s_charset chars_all[66] =
+const s_charset chars_all[66] =		//TODO; set all margins accordingly
 {
 	{
 		.character = {
