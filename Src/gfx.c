@@ -259,12 +259,12 @@ bool get_bigger_difference(int16_t dx, int16_t dy)
  *  @date   23.12.2019
  *
 */
-s_position charxy(char c, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwbgcolor, uint8_t dwchar)
+uint8_t charxy(char c, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwbgcolor, uint8_t dwchar)
 {
 	uint8_t RowCtr = 0;
 	uint8_t ColCtr = 0;
 	uint8_t ArrPos = 0;
-	s_position nextPos;
+	uint8_t nextPos;
 
 	if(c <= 'Z' && c >= 'A') {
 		ArrPos = c - 'A';
@@ -306,16 +306,12 @@ s_position charxy(char c, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, ui
 
 	if(c != ' ')
 	{
-		nextPos.x = chars_all[ArrPos].to_next_char;
-		nextPos.y = 0;
+		nextPos = chars_all[ArrPos].to_next_char;
 	}
 	else
 	{
-		nextPos.x = 5;
-		nextPos.y = 0;
+		nextPos = 5;
 	}
-
-	if(x + 14 > 127) nextPos.y = 13;
 
 	return nextPos;
 }
@@ -329,13 +325,22 @@ s_position charxy(char c, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, ui
 */
 void stringxy(char *string, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwbgcolor)
 {
-	s_position nextPos = {
-			.x = 0,
-			.y = 0
-	};
+	uint8_t x_origin = x;
+//	uint8_t y_origin = y;
+
+	uint8_t nextPos = 0;
 
 	while(*string)
 	{
-		nextPos = charxy(*string++, x + nextPos.x, y - nextPos.y, fgcolor, bgcolor, dwbgcolor, 0);
+		nextPos = charxy(*string++, x, y, fgcolor, bgcolor, dwbgcolor, 0);
+		if(nextPos + x < 127)
+		{
+			x += nextPos;
+		}
+		else
+		{
+			y -= 13;
+			x = x_origin;
+		}
 	}
 }
