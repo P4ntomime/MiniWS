@@ -568,7 +568,7 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 		.from_last_char = 12,
 		.to_next_char = 12
 	},
-	{
+	{	//a
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -586,9 +586,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//b
 		.character = {
 				{00,FG,00,00,00,00,00,00,00,00,00},
 				{00,FG,00,00,00,00,00,00,00,00,00},
@@ -606,9 +606,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//c
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -626,9 +626,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//d
 		.character = {
 				{00,00,00,00,00,FG,00,00,00,00,00},
 				{00,00,00,00,00,FG,00,00,00,00,00},
@@ -646,9 +646,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//e
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -666,9 +666,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//f
 		.character = {
 				{00,FG,FG,00,00,00,00,00,00,00,00},
 				{00,FG,00,00,00,00,00,00,00,00,00},
@@ -686,9 +686,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 4
 	},
-	{
+	{	//g
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -706,9 +706,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,FG,FG,FG,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//h
 		.character = {
 				{00,FG,00,00,00,00,00,00,00,00,00},
 				{00,FG,00,00,00,00,00,00,00,00,00},
@@ -726,9 +726,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//i
 		.character = {
 				{00,FG,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -746,9 +746,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 3
 	},
-	{
+	{	//j
 		.character = {
 				{00,FG,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -766,9 +766,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{FG,FG,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 3
 	},
-	{
+	{	//k
 		.character = {
 				{00,FG,00,00,00,00,00,00,00,00,00},
 				{00,FG,00,00,00,00,00,00,00,00,00},
@@ -786,9 +786,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//l
 		.character = {
 				{00,FG,00,00,00,00,00,00,00,00,00},
 				{00,FG,00,00,00,00,00,00,00,00,00},
@@ -806,9 +806,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 3
 	},
-	{
+	{	//m
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -826,9 +826,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 11
 	},
-	{
+	{	//n
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -846,9 +846,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//o
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -866,9 +866,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//p
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -886,9 +886,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,FG,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//q
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -906,9 +906,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,FG,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//r
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -926,9 +926,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//s
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -946,9 +946,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 6
 	},
-	{
+	{	//t
 		.character = {
 				{00,FG,00,00,00,00,00,00,00,00,00},
 				{00,FG,00,00,00,00,00,00,00,00,00},
@@ -966,9 +966,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 4
 	},
-	{
+	{	//u
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -986,9 +986,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//v
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -1006,9 +1006,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//w
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -1026,9 +1026,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 11
 	},
-	{
+	{	//x
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -1046,9 +1046,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 8
 	},
-	{
+	{	//y
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -1066,9 +1066,9 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{FG,FG,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
-	{
+	{	//z
 		.character = {
 				{00,00,00,00,00,00,00,00,00,00,00},
 				{00,00,00,00,00,00,00,00,00,00,00},
@@ -1086,7 +1086,7 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
 	{
 		.character = {

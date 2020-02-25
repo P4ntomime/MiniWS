@@ -66,17 +66,17 @@ Colors colors =
 };
 
 /**
- *  @name   sendfullscreen
+ *  @name   send_full_screen
  *  @brief
  *  @author Laurin Heitzer
  *  @date   23.12.2019
  *
 */
-void sendfullscreen(void)
+void send_full_screen(void)
 {
-    setcursorstandard();
+    set_cursor_std();
 
-    sendcommand(commands.WriteRAM);
+    send_command(commands.WriteRAM);
 
     fnptr_glob->pin_cs(0);
     fnptr_glob->pin_dc(1);
@@ -109,7 +109,7 @@ void blankscreen(Color color)
         ucDisplayBuff[Ctr + 1] = (color.green << 5) | (0x1F & (color.red));
     }
 
-    sendfullscreen();
+    send_full_screen();
 }
 
 /**
@@ -119,7 +119,7 @@ void blankscreen(Color color)
  *  @date   23.12.2019
  *
 */
-void plotdotxy(uint8_t x, uint8_t y, Color color, uint8_t dwdot)
+void plot_dot_xy(uint8_t x, uint8_t y, Color color, uint8_t dwdot)
 {
     if((x < 128) && (y < 128))      //check if coordinates are legal
     {
@@ -133,7 +133,7 @@ void plotdotxy(uint8_t x, uint8_t y, Color color, uint8_t dwdot)
         ucDisplayBuff[(x*2) + (y*128*2) + 1] = (color.green << 5) | (0x1F & (color.red));           //second part of green subpixel and red subpixel
     }
 
-    if(dwdot) sendfullscreen();
+    if(dwdot) send_full_screen();
 }
 
 /**
@@ -143,7 +143,7 @@ void plotdotxy(uint8_t x, uint8_t y, Color color, uint8_t dwdot)
  *  @date   23.12.2019
  *
 */
-void filledrectxyab(uint8_t x, uint8_t y, uint8_t a, uint8_t b, Color color, uint8_t dwrect)
+void filled_rect_xy_ab(uint8_t x, uint8_t y, uint8_t a, uint8_t b, Color color, uint8_t dwrect)
 {
     uint8_t aCtr = 0;
     uint8_t bCtr = 0;
@@ -156,11 +156,11 @@ void filledrectxyab(uint8_t x, uint8_t y, uint8_t a, uint8_t b, Color color, uin
         {
             for(aCtr = 0; aCtr < a; aCtr++)
             {
-                plotdotxy(x + aCtr, y + bCtr, color, 0);
+                plot_dot_xy(x + aCtr, y + bCtr, color, 0);
             }
         }
 
-        if(dwrect) sendfullscreen();
+        if(dwrect) send_full_screen();
     }
 }
 
@@ -171,7 +171,7 @@ void filledrectxyab(uint8_t x, uint8_t y, uint8_t a, uint8_t b, Color color, uin
  *  @date   23.12.2019
  *
 */
-void linefromto(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Color color, uint8_t dwline)
+void line_from_to(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Color color, uint8_t dwline)
 {
     if((x1 < 128) && (x2 < 128) && (y1 < 128) && (y2 < 128))        //check if coordinates are legal
     {
@@ -190,19 +190,19 @@ void linefromto(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Color color, uin
         {
         	for(ctr = y1; ctr < y2; ctr++)
         	{
-        		plotdotxy(x1, ctr, color, 0);
+        		plot_dot_xy(x1, ctr, color, 0);
         	}
         }
         else if((y1 == y2) && !(x1 == x2))
         {
         	for(ctr = x1; ctr < x2; ctr++)
         	{
-        		plotdotxy(ctr, y1, color, 0);
+        		plot_dot_xy(ctr, y1, color, 0);
         	}
         }
         else if((x1 == x2) && (y1 == y2))
         {
-        	plotdotxy(x1, y1, color, 0);
+        	plot_dot_xy(x1, y1, color, 0);
         }
         else
         {
@@ -217,19 +217,19 @@ void linefromto(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Color color, uin
 			{
 				for(ctr = x1; ctr <= x2; ctr++)
 				{
-					plotdotxy(ctr, (uint8_t)(m * (float)ctr + b), color, 0);	//y = mx + b
+					plot_dot_xy(ctr, (uint8_t)(m * (float)ctr + b), color, 0);	//y = mx + b
 				}
 			}
 			else		//cycle through y-axis
 			{
-				for(ctr = y1; ctr < y2; ctr++)
+				for(ctr = y1; ctr <= y2; ctr++)
 				{
-					plotdotxy((uint8_t)(((float)ctr - b) / m), ctr, color, 0);	//x = (y - b)/m
+					plot_dot_xy((uint8_t)(((float)ctr - b) / m), ctr, color, 0);	//x = (y - b)/m
 				}
 			}
         }
 
-        if(dwline)sendfullscreen();
+        if(dwline)send_full_screen();
     }
 }
 
@@ -266,15 +266,15 @@ uint8_t charxy(char c, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8
 	uint8_t ArrPos = 0;
 	uint8_t nextPos;
 
-//	filledrectxyab(50, 50, 10, 10, colors.yellow, 1);
+//	filled_rect_xy_ab(50, 50, 10, 10, colors.yellow, 1);
 
 	if(c <= 'Z' && c >= 'A') {
 		ArrPos = c - 'A';
-//		filledrectxyab(50, 50, 10, 10, colors.yellow, 1);
+//		filled_rect_xy_ab(50, 50, 10, 10, colors.yellow, 1);
 	}
 	else if(c <= 'z' && c >= 'a') {
 		ArrPos = c - 'a' + 26;
-//		filledrectxyab(50, 50, 10, 10, colors.yellow, 1);
+//		filled_rect_xy_ab(50, 50, 10, 10, colors.yellow, 1);
 	}
 	else if(c <= '9' && c >= '0') {
 		ArrPos = c -'0' + 52;
@@ -298,12 +298,12 @@ uint8_t charxy(char c, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8
 		{
 			if(c != ' ')
 			{
-				if(chars_all[ArrPos].character[RowCtr][ColCtr]) plotdotxy(x + ColCtr, y + 13 - RowCtr, fgcolor, 0);
-				else if(dwbgcolor) plotdotxy(x + ColCtr, y + 13 - RowCtr, bgcolor, 0);
+				if(chars_all[ArrPos].character[RowCtr][ColCtr]) plot_dot_xy(x + ColCtr, y + 13 - RowCtr, fgcolor, 0);
+				else if(dwbgcolor) plot_dot_xy(x + ColCtr, y + 13 - RowCtr, bgcolor, 0);
 			}
 			else
 			{
-				plotdotxy(x + ColCtr, y + 13 - RowCtr, bgcolor, 0);
+				plot_dot_xy(x + ColCtr, y + 13 - RowCtr, bgcolor, 0);
 			}
 		}
 	}
@@ -347,5 +347,5 @@ void stringxy(char *string, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, 
 			x = x_origin;
 		}
 	}
-	sendfullscreen();
+	send_full_screen();
 }

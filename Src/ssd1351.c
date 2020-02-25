@@ -73,42 +73,42 @@ void init_oled(uint8_t orientation, uint8_t framerate, s_ssd1351 *fnptrs)
 
 	for(uiCtr = 0; uiCtr < (128*128*2); uiCtr++) ucDisplayBuff[uiCtr] = 0xFF;
 
-    sendsth(commands.SetCommandLock, 0);   //set command lock
-    sendsth(0xB1, 1);                      //unlock locked commands
+    send_sth(commands.SetCommandLock, 0);   //set command lock
+    send_sth(0xB1, 1);                      //unlock locked commands
 
     //TODO: implement framerate
-    sendsth(commands.DivSet, 0);           //freq divset
-    sendsth(0xF0, 1);                      //divide freq. by 1
+    send_sth(commands.DivSet, 0);           //freq divset
+    send_sth(0xF0, 1);                      //divide freq. by 1
 
-    sendsth(commands.ColorDepth, 0);       //set re-map color depth
-    sendsth(0x20, 1);                      //color depth to 262k color (565 rgb)
+    send_sth(commands.ColorDepth, 0);       //set re-map color depth
+    send_sth(0x20, 1);                      //color depth to 262k color (565 rgb)
 
-    sendsth(commands.SetStartLine, 0);     //set display start line
-    sendsth(0x00, 1);                      //no offset
+    send_sth(commands.SetStartLine, 0);     //set display start line
+    send_sth(0x00, 1);                      //no offset
 
-    sendsth(commands.SetDisplayOffset, 0); //set offset
-    sendsth(0x00, 1);                      //no offset
+    send_sth(commands.SetDisplayOffset, 0); //set offset
+    send_sth(0x00, 1);                      //no offset
 
-    sendsth(commands.SetBrightness, 0);    //change brightness, contrast current control
-    sendsth(0x0F, 1);                      //0x0F -> brightest, 0x00 -> dimmest
+    send_sth(commands.SetBrightness, 0);    //change brightness, contrast current control
+    send_sth(0x0F, 1);                      //0x0F -> brightest, 0x00 -> dimmest
 
     blankscreen(colors.black);              //blank the screen (set whole GDDRAM to 0)
 
-    setcursorstandard();                    //set cursor to standard limitations (0,0,127,127)
+    set_cursor_std();                    //set cursor to standard limitations (0,0,127,127)
 
-    sendsth(commands.DisplayGDDRAM, 0);    //tell to display GDDRAM
-    sendsth(commands.SleepOff, 0);         //turn sleep off
+    send_sth(commands.DisplayGDDRAM, 0);    //tell to display GDDRAM
+    send_sth(commands.SleepOff, 0);         //turn sleep off
 
 }
 
 /**
- *  @name   sendcommand
+ *  @name   send_command
  *  @brief  for sending commands to ssd1351
  *  @author Laurin Heitzer
  *  @date   23.12.2019
  * 
 */
-void sendcommand(uint8_t cmd)
+void send_command(uint8_t cmd)
 {
 //    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_RESET);      //chipselect to low
 //    HAL_GPIO_WritePin(GPIOA, OLED_DC, GPIO_PIN_RESET);      //dc to low for command instruction
@@ -124,13 +124,13 @@ void sendcommand(uint8_t cmd)
 }
 
 /**
- *  @name   senddata
+ *  @name   send_data
  *  @brief  for sending data to ssd1351 (should only be used after a command has been sent)
  *  @author Laurin Heitzer
  *  @date   23.12.2019
  * 
 */
-void senddata(uint8_t *data, uint16_t len)
+void send_data(uint8_t *data, uint16_t len)
 {
 //    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_RESET);      //chipselect to low
 //    HAL_GPIO_WritePin(GPIOA, OLED_DC, GPIO_PIN_SET);        //dc to high for data
@@ -145,7 +145,7 @@ void senddata(uint8_t *data, uint16_t len)
 }
 
 
-void sendsth(uint8_t sth, uint8_t dc)
+void send_sth(uint8_t sth, uint8_t dc)
 {
 //    HAL_GPIO_WritePin(GPIOA, OLED_CS, GPIO_PIN_RESET);
 //    HAL_GPIO_WritePin(GPIOA, OLED_DC, dc);
@@ -161,23 +161,23 @@ void sendsth(uint8_t sth, uint8_t dc)
 }
 
 /**
- *  @name   setcursorstandard
+ *  @name   set_cursor_std
  *  @brief  sets cursor in RAM of ssd1351 to standard (0,0,127,127)
  *  @author Laurin Heitzer
  *  @date   23.12.2019
  *
 */
-void setcursorstandard(void)
+void set_cursor_std(void)
 {
     uint8_t TxBuff[2] = { 0 , 0 };
 
     TxBuff[0] = 0x00;
     TxBuff[1] = 127;
-    sendcommand(commands.SetColumn);
-    senddata(TxBuff, 2);		//not tested
+    send_command(commands.SetColumn);
+    send_data(TxBuff, 2);		//not tested
 
     TxBuff[1] = 127;
-    sendcommand(commands.SetRow);
-    senddata(TxBuff, 2);
+    send_command(commands.SetRow);
+    send_data(TxBuff, 2);
 
 }

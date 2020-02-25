@@ -53,9 +53,9 @@ typedef struct ssd1351
 
 
 void init_oled(uint8_t orientation, uint8_t framerate, s_ssd1351 *fnptrs);
-void sendcommand(uint8_t cmd);
-void senddata(uint8_t *data, uint16_t len);
-void sendsth(uint8_t sth, uint8_t dc);
-void setcursorstandard(void);
+void send_command(uint8_t cmd);
+void send_data(uint8_t *data, uint16_t len);
+void send_sth(uint8_t sth, uint8_t dc);
+void set_cursor_std(void);
 
 #endif /* INC_SSD1351_H_ */

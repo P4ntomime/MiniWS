@@ -263,26 +263,28 @@ int main(void)
 
 	rslt = bme280_set_sensor_settings(settings_sel, &dev);
 
-	//	plotdotxy(1,1,colors.blue, 1);
-	//	plotdotxy(127, 127, colors.red, 1);
+	//	plot_dot_xy(1,1,colors.blue, 1);
+	//	plot_dot_xy(127, 127, colors.red, 1);
 
-//	filledrectxyab(0,0,2,2,colors.blue, 1);
+//	filled_rect_xy_ab(0,0,2,2,colors.blue, 1);
 
-//	linefromto(1,1,1,128,colors.blue, 1);
-//	linefromto(0, 0, 127, 127, colors.green, 1);
-//	linefromto(0, 0, 0, 127, colors.white, 1);
-//	linefromto(1, 1, 1, 127, colors.white, 1);
-//	plotdotxy(0,127,colors.red,1);
-	linefromto(0,0 , 127, 127, colors.blue, 1);
-	linefromto(0,0,127,0,colors.blue,1);
-	linefromto(0,0,0,127,colors.blue,1);
-	HAL_Delay(1000);
-	plotdotxy(127, 127, colors.green, 1);
-	stringxy("test", 10, 10, colors.green, colors.red, 0);
+//	line_from_to(1,1,1,128,colors.blue, 1);
+//	line_from_to(0, 0, 127, 127, colors.green, 1);
+//	line_from_to(0, 0, 0, 127, colors.white, 1);
+//	line_from_to(1, 1, 1, 127, colors.white, 1);
+//	plot_dot_xy(0,127,colors.red,1);
+//	line_from_to(0,0 , 127, 127, colors.blue, 1);
+//	line_from_to(0,0,127,0,colors.blue,1);
+//	line_from_to(0,0,0,127,colors.blue,1);
+//	HAL_Delay(1000);
+//	plot_dot_xy(127, 127, colors.green, 1);
+//	stringxy("test", 10, 10, colors.green, colors.red, 0);
+	stringxy("abcdefghijklmnopqrstuvwxyz", 5,90,colors.green, colors.black, 0);
+
 //	sendfullscreen();
-//	linefromto(1,128,128,128,colors.white, 0);
-//	linefromto(128,128,128,1,colors.white, 0);
-//	linefromto(1,1,128,1,colors.white, 0);
+//	line_from_to(1,128,128,128,colors.white, 0);
+//	line_from_to(128,128,128,1,colors.white, 0);
+//	line_from_to(1,1,128,1,colors.white, 0);
 //
 //	DotXY(1,1,colors.black);
 //	DotXY(128,127,colors.black);
