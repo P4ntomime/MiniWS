@@ -8,6 +8,7 @@
 #include "gfx.h"
 
 #include "myCharSet.h"
+#include "font_big_miniws.h"
 
 extern SPI_HandleTypeDef hspi1;
 extern Commands commands;
@@ -348,4 +349,114 @@ void stringxy(char *string, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, 
 		}
 	}
 	send_full_screen();
+}
+
+/**
+ *  @name
+ *  @brief
+ *  @author Laurin Heitzer
+ *  @date   17.05.2020
+ *  @info   function seems to work so far but further testing is needed!
+ *
+*/
+uint8_t bignumxy(uint8_t number, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwbgcolor, uint8_t dwchar)
+{
+    uint8_t x_origin = x;
+//  uint8_t y_origin = y;
+
+    uint8_t x_ctr = 0;
+    uint8_t y_ctr = 0;
+    uint8_t layer_ctr = 0;
+    uint8_t layer = 0;
+
+    uint8_t offset = 0;
+    uint8_t lastrowctr = 0;
+
+    s_charset_big *bignum;
+
+
+        switch(number)
+        {
+        case 0:
+            bignum = &_0_bigchar;
+            break;
+
+        case 1:
+            bignum = &_1_bigchar;
+            break;
+
+        case 2:
+            bignum = &_2_bigchar;
+            break;
+
+        case 3:
+            bignum = &_3_bigchar;
+            break;
+
+        case 4:
+            bignum = &_4_bigchar;
+            break;
+
+        case 5:
+            bignum = &_5_bigchar;
+            break;
+
+        case 6:
+            bignum = &_6_bigchar;
+            break;
+
+        case 7:
+            bignum = &_7_bigchar;
+            break;
+
+        case 8:
+            bignum = &_8_bigchar;
+            break;
+
+        case 9:
+            bignum = &_9_bigchar;
+            break;
+
+        default:
+
+            return 0xFF;
+        }
+
+
+    for(x_ctr = 0; x_ctr < 32; x_ctr++)
+    {
+
+        for(y_ctr = 0; y_ctr < 6; y_ctr++)
+        {
+            for(layer_ctr = 0; layer_ctr < bignum->character[y_ctr][x_ctr]; layer_ctr++)
+            {
+                if(layer)
+                {
+
+                    plot_dot_xy(x + x_ctr, y - layer_ctr - offset, fgcolor, 0);
+                }
+                else
+                {
+
+                    plot_dot_xy(x + x_ctr, y - layer_ctr - offset, bgcolor, 0);
+                }
+            }
+            offset += bignum->character[y_ctr][x_ctr];
+
+            if(layer && y_ctr == 5 && offset < 54)
+            {
+                for(lastrowctr = offset; lastrowctr < 54; lastrowctr++)
+                {
+                    plot_dot_xy(x + x_ctr, y - lastrowctr, bgcolor, 0);
+                }
+            }
+
+            layer = ~layer;
+        }
+        offset = 0;
+    }
+
+    if(dwchar)send_full_screen();
+
+    return 0;
 }

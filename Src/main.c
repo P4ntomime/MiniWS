@@ -263,6 +263,8 @@ int main(void)
 
 	rslt = bme280_set_sensor_settings(settings_sel, &dev);
 
+	//TODO: implement timer interrupt for measuring (~1 second interrupt, save every 60th measurement for histograms) (may not be needed due to automatic periodic measuring on BME280)
+
 	//	plot_dot_xy(1,1,colors.blue, 1);
 	//	plot_dot_xy(127, 127, colors.red, 1);
 
@@ -279,8 +281,15 @@ int main(void)
 //	HAL_Delay(1000);
 //	plot_dot_xy(127, 127, colors.green, 1);
 //	stringxy("test", 10, 10, colors.green, colors.red, 0);
-	stringxy("abcdefghijklmnopqrstuvwxyz", 5,90,colors.green, colors.black, 0);
+//	stringxy("abcdefghijklmnopqrstuvwxyz", 5,90,colors.green, colors.black, 0);
 
+//	bignumxy(7, 10, 90, colors.blue, colors.yellow, 1, 1);
+//	bignumxy(8, 50, 90, colors.blue, colors.yellow, 1, 1);
+//	bignumxy(9, 90, 90, colors.blue, colors.yellow, 1, 1);
+
+
+
+//	send_full_screen();
 //	sendfullscreen();
 //	line_from_to(1,128,128,128,colors.white, 0);
 //	line_from_to(128,128,128,1,colors.white, 0);
@@ -298,6 +307,13 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 	while (42)
 	{
+
+        for(int i = 0; i < 10; i++)
+        {
+
+            bignumxy(i, 10, 90, colors.blue, colors.yellow, 1, 1);
+            HAL_Delay(200);
+        }
 	/* USER CODE END WHILE */
 
 		//	  loadUI(&dev, &comp_data);
@@ -316,7 +332,9 @@ int main(void)
 
 		//print_sensor_data(&comp_data);
 
-		HAL_Delay(1000);
+
+
+//		HAL_Delay(1000);
 
 	/* USER CODE BEGIN 3 */
 	}

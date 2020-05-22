@@ -9,6 +9,9 @@
 
 //extern Colors colors;
 
+//TODO: implement seven different UIs (Overview UI with all histograms on one and all data on one, temperature UI with big font temperature -> temperature histogram, same as degree but with humidity and pressure)
+//TODO: switch UIs with Tap-Button (short-tap for general switch(temperature to humidity to pressure to overview), long-tap for histogram of current UI (no switch for overview, though maybe implement easteregg))
+
 uint8_t UIlddone = 0;
 sens_data sensdata[9];
 

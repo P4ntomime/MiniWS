@@ -43,6 +43,7 @@ void line_from_to(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Color color, u
 bool get_bigger_difference(int16_t dx, int16_t dy);
 uint8_t charxy(char c, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwbgcolor, uint8_t dwchar);
 void stringxy(char *string, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwbgcolor);
+uint8_t bignumxy(uint8_t number, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwbgcolor, uint8_t dwchar);
 
 
 #endif /* INC_GFX_H_ */
