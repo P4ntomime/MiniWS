@@ -55,9 +55,9 @@ Colors colors =
     .yellow.blue    = 0x00,
 
     //magenta
-    .magenta.red    = 0x3F,
+    .magenta.red    = 0x1F,
     .magenta.green  = 0x00,
-    .magenta.blue   = 0x3F,
+    .magenta.blue   = 0x1F,
 
     //cyan
     .cyan.red       = 0x00,

@@ -1106,7 +1106,7 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 8
 	},
 	{
 		.character = {
@@ -1126,7 +1126,7 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 7
 	},
 	{
 		.character = {
@@ -1146,7 +1146,7 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 8
 	},
 	{
 		.character = {
@@ -1166,7 +1166,7 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 8
 	},
 	{
 		.character = {
@@ -1186,7 +1186,7 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 8
 	},
 	{
 		.character = {
@@ -1206,7 +1206,7 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 8
 	},
 	{
 		.character = {
@@ -1226,7 +1226,7 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 8
 	},
 	{
 		.character = {
@@ -1246,7 +1246,7 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 8
 	},
 	{
 		.character = {
@@ -1266,7 +1266,7 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 8
 	},
 	{
 		.character = {
@@ -1286,7 +1286,7 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 8
 	},
 	{
 		.character = {
@@ -1306,7 +1306,7 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 6
 	},
 	{
 		.character = {
@@ -1346,7 +1346,7 @@ const s_charset chars_all[66] =		//TODO; set all margins accordingly
 				{00,00,00,00,00,00,00,00,00,00,00}
 		},
 		.from_last_char = 12,
-		.to_next_char = 12
+		.to_next_char = 5
 	},
 	{
 		.character = {

@@ -81,7 +81,7 @@ void init_oled(uint8_t orientation, uint8_t framerate, s_ssd1351 *fnptrs)
     send_sth(0xF0, 1);                      //divide freq. by 1
 
     send_sth(commands.ColorDepth, 0);       //set re-map color depth
-    send_sth(0x20, 1);                      //color depth to 262k color (565 rgb)
+    send_sth(0x60, 1);                      //color depth to 262k color (565 rgb)
 
     send_sth(commands.SetStartLine, 0);     //set display start line
     send_sth(0x00, 1);                      //no offset

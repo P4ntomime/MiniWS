@@ -29,7 +29,7 @@
 #include "gfx.h"
 #include "ssd1351.h"
 //#include "OLEDGFX.h"
-//#include "UI.h"
+#include "UI.h"
 
 /* USER CODE END Includes */
 
@@ -40,6 +40,17 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
+#define UI_TEMP_STD 0
+#define UI_HUM_STD  1
+#define UI_PRES_STD 2
+#define UI_OVERVIEW 3
+#define UI_TEMP_ADV 4
+#define UI_HUM_ADV  5
+#define UI_PRES_ADV 6
+
+#define TIME_LONGCLICK 100000
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -54,6 +65,16 @@ SPI_HandleTypeDef hspi2;
 /* USER CODE BEGIN PV */
 
 extern Colors colors;
+
+int8_t rslt = BME280_OK;
+
+struct bme280_dev dev;
+struct bme280_data comp_data;
+
+sens_data sdata_all = {0,0,0};
+
+uint16_t datacounter = 0;
+uint8_t datachanged = 0;
 
 /* USER CODE END PV */
 
@@ -189,6 +210,59 @@ void transmit_data(uint8_t *data, uint32_t len)
 {
 	HAL_SPI_Transmit(&hspi1, data, len, 1000);
 }
+
+void init_RTC(void)
+{
+    RCC->APB1ENR |= RCC_APB1ENR_BKPEN | RCC_APB1ENR_PWREN;
+
+    PWR->CR |= PWR_CR_DBP;
+
+    RCC->BDCR |= RCC_BDCR_LSEON;
+
+    while(!READ_BIT(RCC->BDCR, RCC_BDCR_LSERDY));
+
+    MODIFY_REG(RCC->BDCR, RCC_BDCR_RTCSEL, RCC_BDCR_RTCSEL_LSE);
+
+    RCC->BDCR |= RCC_BDCR_RTCEN;
+
+    while(!READ_BIT(RTC->CRL, RTC_CRL_RSF));
+
+    while(!READ_BIT(RTC->CRL, RTC_CRL_RTOFF));
+
+    SET_BIT(RTC->CRH, RTC_CRH_SECIE);
+
+    while(!READ_BIT(RTC->CRL, RTC_CRL_RTOFF));
+
+    SET_BIT(RTC->CRL,RTC_CRL_CNF);
+
+    RTC->PRLL=32767;
+    RTC->PRLH=0;
+
+    CLEAR_BIT(RTC->CRL,RTC_CRL_CNF);
+
+    while(!READ_BIT(RTC->CRL, RTC_CRL_RTOFF));
+
+    NVIC_EnableIRQ(RTC_IRQn);
+}
+
+void RTC_IRQHandler(void)
+{
+    CLEAR_BIT(RTC->CRL, RTC_CRL_SECF);
+
+    rslt = bme280_get_sensor_data(BME280_ALL, &comp_data, &dev);
+
+    sdata_all.temperature = comp_data.temperature;
+    sdata_all.humidity = comp_data.humidity;
+    sdata_all.pressure = comp_data.pressure;
+
+    if(datacounter++ == 10)
+    {
+        histogram_add_data(&sdata_all);
+        datacounter = 0;
+    }
+
+    datachanged = 1;
+}
 /* USER CODE END 0 */
 
 /**
@@ -210,10 +284,27 @@ int main(void)
 	/* USER CODE BEGIN Init */
 
 	s_ssd1351 fnptrs_main;
-	struct bme280_dev dev;
-	struct bme280_data comp_data;
-	int8_t rslt = BME280_OK;
+//	struct bme280_dev dev;
+//	struct bme280_data comp_data;
+//	int8_t rslt = BME280_OK;
 	uint8_t settings_sel;
+
+	uint8_t ui_selected = UI_TEMP_ADV;
+
+	uint32_t touch_counter = 0;
+	uint8_t last_touch_info = 0;
+
+	uint8_t beenhere = 0;
+	uint8_t laststate = 0xFF;
+
+//	sens_data sdata_all = {0,0,0};
+
+//	int32_t temperature = 0;
+//	uint32_t humidity = 0;
+//	uint32_t pressure = 0;
+
+//	uint16_t datacounter = 0;
+//	uint8_t datachanged = 0;
 
 	/* Sensor_0 interface over SPI with native chip select line */
 	dev.dev_id = 0;
@@ -233,8 +324,9 @@ int main(void)
 	dev.settings.osr_p = BME280_OVERSAMPLING_16X;
 	dev.settings.osr_t = BME280_OVERSAMPLING_2X;
 	dev.settings.filter = BME280_FILTER_COEFF_16;
+	dev.settings.standby_time = BME280_STANDBY_TIME_1000_MS;
 
-	settings_sel = BME280_OSR_PRESS_SEL | BME280_OSR_TEMP_SEL | BME280_OSR_HUM_SEL | BME280_FILTER_SEL;
+	settings_sel = BME280_OSR_PRESS_SEL | BME280_OSR_TEMP_SEL | BME280_OSR_HUM_SEL | BME280_FILTER_SEL | BME280_STANDBY_SEL;
 
   /* USER CODE END Init */
 
@@ -242,6 +334,8 @@ int main(void)
 	SystemClock_Config();
 
 	/* USER CODE BEGIN SysInit */
+
+	init_RTC();
 
 	/* USER CODE END SysInit */
 
@@ -256,12 +350,76 @@ int main(void)
 
 	blankscreen(colors.black);
 
+//	for(uint8_t ctr1 = 0; ctr1 < 9; ctr1++)
+//	{
+////        sdata_all.temperature = 2500 + (ctr1 * 300);
+//
+//	    switch(ctr1)
+//	    {
+//	    case 0:
+//	        sdata_all.temperature = 2200;
+//	        break;
+//
+//	    case 1:
+//	        sdata_all.temperature = 2300;
+//	        break;
+//
+//	    case 2:
+//            sdata_all.temperature = 2400;
+//	        break;
+//
+//	    case 3:
+//            sdata_all.temperature = 2500;
+//	        break;
+//
+//	    case 4:
+//            sdata_all.temperature = 2600;
+//	        break;
+//
+//	    case 5:
+//            sdata_all.temperature = 2700;
+//	        break;
+//
+//	    case 6:
+//            sdata_all.temperature = 2800;
+//	        break;
+//
+//	    case 7:
+//            sdata_all.temperature = 2900;
+//	        break;
+//
+//	    case 8:
+//            sdata_all.temperature = 2400;
+//	        break;
+//
+//	    case 9:
+//            sdata_all.temperature = 2600;
+//	        break;
+//
+//	    }
+//
+//        histogram_add_data(&sdata_all);
+//	}
+//
+//	histogram_display_single(0);
+
+
+//	while(!(RTC->CRL & 0x10));
+//
+//	RTC->CRL |= 0x08;
+//	RTC->PRLL = 0xFF;
+//	RTC->PRLH = 0x0F;
+//	RTC->CRH = 0x01;
+//	RTC->CRL &= ~0x08;
+//
+//	while(!(RTC->CRL & 0x10));
 
 	rslt = bme280_init(&dev);
 
 	//    rslt = stream_sensor_data_forced_mode(&dev);
 
 	rslt = bme280_set_sensor_settings(settings_sel, &dev);
+	rslt = bme280_set_sensor_mode(BME280_NORMAL_MODE, &dev);
 
 	//TODO: implement timer interrupt for measuring (~1 second interrupt, save every 60th measurement for histograms) (may not be needed due to automatic periodic measuring on BME280)
 
@@ -308,12 +466,180 @@ int main(void)
 	while (42)
 	{
 
-        for(int i = 0; i < 10; i++)
-        {
+//	    rslt = bme280_get_sensor_data(BME280_ALL, &comp_data, &dev);
 
-            bignumxy(i, 10, 90, colors.blue, colors.yellow, 1, 1);
-            HAL_Delay(200);
-        }
+//	    if(sdata_all.temperature != comp_data.temperature || sdata_all.humidity != comp_data.humidity || sdata_all.pressure != comp_data.pressure)
+//	    {
+//	        sdata_all.temperature = comp_data.temperature;
+//	        sdata_all.humidity = comp_data.humidity;
+//	        sdata_all.pressure = comp_data.pressure;
+
+//	        datachanged = 1;
+
+//	        if(datacounter++ == 599)    //FIXME: needs some debugging to have better timing (maybe use RTC instead)(save data to histogram every 10 minutes)
+//	        {
+//
+//
+//	            histogram_add_data(&sdata_all);
+////	            stringxy("599", 50, 110, colors.white, colors.black, 1);
+//
+//	            datacounter = 0;
+//	        }
+//	    }
+
+	    switch(ui_selected)
+	    {
+
+	    case UI_TEMP_STD:
+
+	        if((laststate != UI_TEMP_STD) || datachanged)
+	        {
+                blankscreen(colors.black);
+
+
+                UI_display_temperature(sdata_all.temperature);
+
+                datachanged = 0;
+
+	        }
+	        laststate = UI_TEMP_STD;
+	        break;
+
+	    case UI_HUM_STD:
+
+	        if((laststate != UI_HUM_STD) || datachanged)
+	        {
+                blankscreen(colors.black);
+
+
+                UI_display_humidity(sdata_all.humidity);
+
+                datachanged = 0;
+
+	        }
+	        laststate = UI_HUM_STD;
+	        break;
+
+	    case UI_PRES_STD:
+
+	        if((laststate != UI_PRES_STD) || datachanged)
+	        {
+                blankscreen(colors.black);
+
+
+                UI_display_pressure(sdata_all.pressure);
+
+                datachanged = 0;
+
+	        }
+	        laststate = UI_PRES_STD;
+	        break;
+
+	    case UI_OVERVIEW:
+
+	        if((laststate != UI_OVERVIEW) || datachanged)
+	        {
+                blankscreen(colors.blue);
+
+                stringxy("UI.OVERVIEW",10, 60, colors.black, colors.yellow, 0);
+
+                datachanged = 0;
+	        }
+	        laststate = UI_OVERVIEW;
+	        break;
+
+        case UI_TEMP_ADV:
+
+            if((laststate != UI_TEMP_ADV) || datachanged)
+            {
+                if((datacounter == 1) || (laststate != UI_TEMP_ADV))
+                    histogram_display_single(0);
+
+
+                histogram_display_overhead(0, &sdata_all);
+                datachanged = 0;
+
+            }
+            laststate = UI_TEMP_ADV;
+            break;
+
+        case UI_HUM_ADV:
+
+            if((laststate != UI_HUM_ADV)  || datachanged)
+            {
+                if((datacounter == 1) || (laststate != UI_HUM_ADV))
+                    histogram_display_single(1);
+
+                datachanged = 0;
+
+            }
+            laststate = UI_HUM_ADV;
+            break;
+
+        case UI_PRES_ADV:
+
+            if((laststate != UI_PRES_ADV)  || datachanged)
+            {
+                if((datacounter == 1) || (laststate != UI_PRES_ADV))
+                    histogram_display_single(2);
+
+                datachanged = 0;
+
+            }
+            laststate = UI_PRES_ADV;
+            break;
+
+	    default:
+
+	        blankscreen(colors.white);
+
+	        stringxy("DEFAULT",10, 60, colors.black, colors.yellow, 0);
+	        break;
+	    }
+
+	    if(HAL_GPIO_ReadPin(GPIOB, TOUCH_SNS_Pin) && (touch_counter < 0xFFFFFFFF))
+	    {
+	        touch_counter++;
+	        last_touch_info = 1;
+	    }
+	    else
+	    {
+	        if((touch_counter < TIME_LONGCLICK) && !HAL_GPIO_ReadPin(GPIOB, TOUCH_SNS_Pin) && last_touch_info)
+	        {
+	            if(ui_selected < UI_OVERVIEW) ui_selected++;
+	            else if(ui_selected == UI_OVERVIEW) ui_selected = UI_TEMP_STD;
+	            touch_counter = 0;
+	            last_touch_info = 0;
+	        }
+	        else if(touch_counter >= TIME_LONGCLICK && !HAL_GPIO_ReadPin(GPIOB, TOUCH_SNS_Pin) && last_touch_info)
+	        {
+	            if(ui_selected < UI_OVERVIEW)
+	            {
+	                ui_selected += 4;
+	                touch_counter = 0;
+	                last_touch_info = 0;
+	            }
+	            else if(ui_selected > UI_OVERVIEW)
+	            {
+	                ui_selected -= 4;
+	                touch_counter = 0;
+	                last_touch_info = 0;
+	            }
+	        }
+	    }
+//	    else if(!HAL_GPIO_ReadPin(GPIOB, TOUCH_SNS_Pin))
+//	    {
+//	        touchCounter = 0;
+//	    }
+
+
+
+//        for(int i = 0; i < 10; i++)
+//        {
+//
+//            bignumxy(i, 10, 90, colors.blue, colors.yellow, 1, 1);
+//            HAL_Delay(200);
+//        }
 	/* USER CODE END WHILE */
 
 		//	  loadUI(&dev, &comp_data);
