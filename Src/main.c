@@ -49,7 +49,7 @@
 #define UI_HUM_ADV  5
 #define UI_PRES_ADV 6
 
-#define TIME_LONGCLICK 100000
+#define TIME_LONGCLICK 300000
 
 /* USER CODE END PD */
 
@@ -73,7 +73,7 @@ struct bme280_data comp_data;
 
 sens_data sdata_all = {0,0,0};
 
-uint16_t datacounter = 0;
+uint16_t datacounter = 598;
 uint8_t datachanged = 0;
 
 /* USER CODE END PV */
@@ -255,7 +255,7 @@ void RTC_IRQHandler(void)
     sdata_all.humidity = comp_data.humidity;
     sdata_all.pressure = comp_data.pressure;
 
-    if(datacounter++ == 10)
+    if(datacounter++ == 599)
     {
         histogram_add_data(&sdata_all);
         datacounter = 0;
