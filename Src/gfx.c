@@ -328,7 +328,7 @@ uint8_t charxy(char c, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8
  *  @date   23.12.2019
  *
 */
-void stringxy(char *string, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwbgcolor)
+void stringxy(char *string, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwbgcolor, uint8_t dwstring)
 {
 	uint8_t x_origin = x;
 //	uint8_t y_origin = y;
@@ -348,6 +348,7 @@ void stringxy(char *string, uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, 
 			x = x_origin;
 		}
 	}
+	if(dwstring)
 	send_full_screen();
 }
 
@@ -459,4 +460,146 @@ uint8_t bignumxy(uint8_t number, uint8_t x, uint8_t y, Color fgcolor, Color bgco
     if(dwchar)send_full_screen();
 
     return 0;
+}
+
+void symbol_std_temperature(uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwsym)
+{
+    uint8_t x_ctr = 0;
+    uint8_t y_ctr = 0;
+
+    uint8_t offset = 0;
+
+    uint8_t layer = 0;
+    uint8_t layer_ctr = 0;
+
+    uint8_t lastrowctr = 0;
+
+    for(x_ctr = 0; x_ctr < 30; x_ctr++)
+    {
+        for(y_ctr = 0; y_ctr < 6; y_ctr++)
+        {
+            for(layer_ctr = 0; layer_ctr < degree_C[y_ctr][x_ctr]; layer_ctr++)
+            {
+                if(layer)
+                {
+
+                    plot_dot_xy(x + x_ctr, y - layer_ctr - offset, fgcolor, 0);
+                }
+                else
+                {
+
+                    plot_dot_xy(x + x_ctr, y - layer_ctr - offset, bgcolor, 0);
+                }
+            }
+            offset += degree_C[y_ctr][x_ctr];
+
+            if(layer && y_ctr == 5 && offset < 28)
+            {
+                for(lastrowctr = offset; lastrowctr < 28; lastrowctr++)
+                {
+                    plot_dot_xy(x + x_ctr, y - lastrowctr, bgcolor, 0);
+                }
+            }
+
+            layer = ~layer;
+        }
+        offset = 0;
+    }
+
+    if(dwsym) send_full_screen();
+
+}
+
+void symbol_std_humidity(uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwsym)
+{
+    uint8_t x_ctr = 0;
+    uint8_t y_ctr = 0;
+
+    uint8_t offset = 0;
+
+    uint8_t layer = 0;
+    uint8_t layer_ctr = 0;
+
+    uint8_t lastrowctr = 0;
+
+    for(x_ctr = 0; x_ctr < 55; x_ctr++)
+    {
+        for(y_ctr = 0; y_ctr < 6; y_ctr++)
+        {
+            for(layer_ctr = 0; layer_ctr < rel_hum[y_ctr][x_ctr]; layer_ctr++)
+            {
+                if(layer)
+                {
+
+                    plot_dot_xy(x + x_ctr, y - layer_ctr - offset, fgcolor, 0);
+                }
+                else
+                {
+
+                    plot_dot_xy(x + x_ctr, y - layer_ctr - offset, bgcolor, 0);
+                }
+            }
+            offset += rel_hum[y_ctr][x_ctr];
+
+            if(layer && y_ctr == 5 && offset < 28)
+            {
+                for(lastrowctr = offset; lastrowctr < 28; lastrowctr++)
+                {
+                    plot_dot_xy(x + x_ctr, y - lastrowctr, bgcolor, 0);
+                }
+            }
+
+            layer = ~layer;
+        }
+        offset = 0;
+    }
+
+    if(dwsym) send_full_screen();
+}
+
+void symbol_std_pressure(uint8_t x, uint8_t y, Color fgcolor, Color bgcolor, uint8_t dwsym)
+{
+    uint8_t x_ctr = 0;
+    uint8_t y_ctr = 0;
+
+    uint8_t offset = 0;
+
+    uint8_t layer = 0;
+    uint8_t layer_ctr = 0;
+
+    uint8_t lastrowctr = 0;
+
+    for(x_ctr = 0; x_ctr < 49; x_ctr++)
+    {
+        for(y_ctr = 0; y_ctr < 6; y_ctr++)
+        {
+            for(layer_ctr = 0; layer_ctr < pressure[y_ctr][x_ctr]; layer_ctr++)
+            {
+                if(layer)
+                {
+
+                    plot_dot_xy(x + x_ctr, y - layer_ctr - offset, fgcolor, 0);
+                }
+                else
+                {
+
+                    plot_dot_xy(x + x_ctr, y - layer_ctr - offset, bgcolor, 0);
+                }
+            }
+            offset += pressure[y_ctr][x_ctr];
+
+            if(layer && y_ctr == 5 && offset < 28)
+            {
+                for(lastrowctr = offset; lastrowctr < 28; lastrowctr++)
+                {
+                    plot_dot_xy(x + x_ctr, y - lastrowctr, bgcolor, 0);
+                }
+            }
+
+            layer = ~layer;
+        }
+        offset = 0;
+    }
+
+    if(dwsym) send_full_screen();
 }

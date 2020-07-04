@@ -24,9 +24,9 @@
 #define OH_PRES 2
 #define OH_OVW  3
 
-#define TEMP_FACTOR 0.0125
-#define HUM_FACTOR  0.00139509
-#define PRES_FACTOR 0.000833333
+#define TEMP_FACTOR 0.03366667
+#define HUM_FACTOR  0.00219184
+#define PRES_FACTOR 0.00336667
 
 typedef struct sdata
 {
@@ -36,9 +36,6 @@ typedef struct sdata
 //	uint8_t measurement_taken;
 }sens_data;
 
-void loadUI(struct bme280_dev *dev, struct bme280_data *comp_data);
-void refresh_measurements(void);
-void refresh_graph(void);
 void UI_display_temperature(int32_t temperature);
 void UI_display_humidity(uint32_t humidity);
 void UI_display_pressure(uint32_t pressure);
@@ -50,7 +47,7 @@ void histogram_display_overview(void);
 void string_temperature(int32_t temperature, char *string);
 void string_humidity(uint32_t humidity, char *string);
 void string_pressure(uint32_t pressure, char *string);
-void resetmeasurementtaken(void);
+void get_scaling(uint8_t histogram_max_point);
 
 
 #endif /* INC_TEMPINTF_H_ */
